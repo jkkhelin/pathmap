@@ -1,6 +1,9 @@
 import numpy as np
+import pytest
 
-from app.homography import apply_homography
+from app.homography import apply_homography, estimate_homography
+
+# tests for apply_homography()
 
 def test_identity_homography_returns_same_point():
     """Test if a homography with diagonal ones produces the input point."""
@@ -28,3 +31,44 @@ def test_projective_mapping():
     y2_correct = y2_prime / w2_prime
 
     assert np.isclose(x2, x2_correct) and np.isclose(y2, y2_correct)
+
+# tests for estimate_homography()
+
+def test_produced_homography_reproduces_points():
+    """Test if estimate_homography gives the correct
+    results for the same points it was built from."""
+    points1 = [
+        [0.0, 0.0], [1.0, 0.0], [1.0, 1.0], [0.0, 1.0]
+    ]
+    points2 = [
+        [0.0, 0.0], [1.2, 0.1], [1.1, 1.3], [-0.1, 0.9]
+    ]
+
+    H = estimate_homography(points1, points2)
+    for ((x1, y1), (x2, y2)) in zip(points1, points2):
+        x2_produced, y2_produced = apply_homography(H, x1, y1)
+        assert np.isclose(x2, x2_produced) and np.isclose(y2, y2_produced)
+
+def test_too_few_points_raises_valueerror():
+    """Minimum of 4 points are needed to compute a homography.
+    Test that fewer points raise ValueError."""
+    points1 = [
+        [0.0, 0.0], [1.0, 0.0], [1.0, 1.0]
+    ]
+    points2 = [
+        [0.0, 0.0], [1.2, 0.1], [1.1, 1.3]
+    ]
+    with pytest.raises(ValueError):
+        estimate_homography(points1, points2)
+
+def test_wrong_lengths_raises_valueerror():
+    """Both point lists must be of equal length.
+    Test that wrong lenghts raise ValueError."""
+    points1 = [
+        [0.0, 0.0], [1.0, 0.0], [1.0, 1.0], [0.0, 1.0], [0.5, 1.5]
+    ]
+    points2 = [
+        [0.0, 0.0], [1.2, 0.1], [1.1, 1.3], [-0.1, 0.9]
+    ]
+    with pytest.raises(ValueError):
+        estimate_homography(points1, points2)

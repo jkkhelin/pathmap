@@ -16,3 +16,6 @@ def apply_homography(H: np.ndarray, x: float, y: float) -> tuple[float, float]:
     x_prime, y_prime, w_prime = H @ homogeneous_coords
     x2, y2 = x_prime / w_prime, y_prime / w_prime
     return x2, y2
+
+def estimate_homography(points1, points2):
+    return np.zeros(3)
