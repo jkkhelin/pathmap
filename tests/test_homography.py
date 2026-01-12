@@ -13,11 +13,11 @@ def test_projective_mapping():
     """Test if apply_homography produces the correct result for a
     projective transformation.
     """
-    H = [
+    H = np.array([
         [1.0, 0.5, 0.2],
         [0.0, 1.0, -3.0],
         [0.1, -0.2, 1.0]
-    ]
+    ])
     x1, y1 = 0.8, -0.4
     x2, y2 = apply_homography(H, x1, y1)
 
