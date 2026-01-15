@@ -5,7 +5,7 @@ or object path data points that we are interested in."""
 
 import time, httpx
 
-from detection_class import Detection
+from app.detection_class import Detection
 
 def fetch_events(url):
     """Get "person" events from Frigate from the last 24 hours.
