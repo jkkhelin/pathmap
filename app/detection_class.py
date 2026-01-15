@@ -4,7 +4,7 @@ object movement path provided by Frigate. It also includes
 utilities for translating it into a point on the map using
 precomputed homographies."""
 
-import app.homography as hg
+import homography as hg
 
 class Detection:
     """Represents a single detection point.

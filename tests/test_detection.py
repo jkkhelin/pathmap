@@ -1,6 +1,6 @@
 import numpy as np
 
-from app.detection import Detection
+from app.detection_class import Detection
 from app.util import normalize_camera_config
 
 def test_compute_homographies_output_format():
