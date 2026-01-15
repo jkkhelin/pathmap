@@ -20,7 +20,7 @@ def test_compute_homographies_output_format():
     }
     normalized_config = normalize_camera_config(camera_config)
 
-    Detection.compute_hompgraphies(normalized_config)
+    Detection.compute_homographies(normalized_config)
     
     assert isinstance(Detection.homographies, dict)
     assert len(Detection.homographies) == 2
