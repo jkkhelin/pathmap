@@ -1,3 +1,7 @@
+"""This module provides the apply_homography and estimate_homography
+functions used for translating between points on the camera video feed
+and the geographical map."""
+
 from typing import Union
 import numpy as np
 
