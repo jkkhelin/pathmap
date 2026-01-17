@@ -18,7 +18,7 @@ Add map.png and cameras.json files in the config directory. The map.png is the b
 ### Run
 
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 FRIGATE_URL=YOUR_URL fastapi run app/main.py --port 8000
 ```
 
