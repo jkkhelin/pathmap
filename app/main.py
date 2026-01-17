@@ -3,6 +3,7 @@ It loads configuration and defines the ASGI app for the uvicorn
 server. There is currently a single path operation, /heatmap-24h."""
 
 import os, json
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
@@ -19,6 +20,8 @@ with open('config/cameras.json') as f:
 normalized = normalize_camera_config(camera_config)
 Detection.compute_homographies(normalized)
 
+Path('/tmp/pathmap').mkdir(parents=True, exist_ok=True)
+
 app = FastAPI()
 
 @app.get('/heatmap-24h')
@@ -31,9 +34,9 @@ def get_24h_heatmap():
     map_points = [d.map_point() for d in detections]
     overlay_heatmap(image_path='config/map.png',
                     points=map_points,
-                    out_path='map_output/heatmap-24h.png',
+                    out_path='/tmp/pathmap/heatmap-24h.png',
                     sigma_px=10,
                     alpha_max=0.8,
                     cmap_name='jet',
                     gamma=0.35)
-    return FileResponse('map_output/heatmap-24h.png')
+    return FileResponse('/tmp/pathmap/heatmap-24h.png')
